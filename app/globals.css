@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
+  --background: #c2c2c2;
   --foreground: #171717;
 }
 
@@ -29,4 +29,8 @@ header {
   color: var(--color-foreground);
   padding: 1rem;
   text-align: center;
+}
+
+* {
+  font-family: var(--font-roboto, Arial, Helvetica, sans-serif);
 }

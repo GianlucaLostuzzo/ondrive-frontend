@@ -5,7 +5,7 @@ import { Roboto } from 'next/font/google';
 
 const roboto = Roboto({
   subsets: ['latin'],
-  weight: ['400', '700', '900'], // puoi aggiungere altri pesi
+  weight: ['400', '500', '600', '700', '900'], // puoi aggiungere altri pesi
   display: 'swap',
   variable: '--font-roboto',
 });
