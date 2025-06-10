@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Roboto } from 'next/font/google';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -11,7 +12,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "ONDRIVE",
+  title: "Ondrive - il network tecnico",
   description: "Il network tecnico per la mobilità del futuro",
 };
 
@@ -22,10 +23,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="it" className={roboto.className}>
-      <body
-        className={`${roboto.variable} antialiased`}
-      >
-        {children}
+      <body className={`${roboto.variable} antialiased`}>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-grow">{children}</main>
+          <Footer />
+        </div>
       </body>
     </html>
   );

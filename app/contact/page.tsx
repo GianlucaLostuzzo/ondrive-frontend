@@ -1,14 +1,8 @@
 'use client';
 
-import Header from '@/app/components/Header';
-import Link from 'next/link';
-import Footer from '@/app/components/Footer';
-
 export default function Contact() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
-      <Header />
-
       <main className="flex-grow px-6 py-16 max-w-4xl mx-auto text-gray-800">
         <h1 className="text-3xl font-bold mb-6"><span style={{ color: '#009cda' }}>Contattaci</span></h1>
 
@@ -50,8 +44,6 @@ export default function Contact() {
           </form>
         </section>
       </main>
-
-      <Footer />
     </div>
   );
 }

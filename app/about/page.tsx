@@ -1,15 +1,8 @@
 'use client';
 
-import Link from 'next/link';
-import Header from '@/app/components/Header';
-import Footer from '@/app/components/Footer';
-
 export default function About() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Header */}
-      <Header />
-
       {/* Contenuto */}
       <main className="flex-grow px-6 py-16 bg-gray-50 text-gray-800 max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-blue-900 mb-6"><span style={{ color: '#009cda' }}>Chi siamo</span></h1>
@@ -43,9 +36,6 @@ export default function About() {
           </p>
         </section>
       </main>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }
