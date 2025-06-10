@@ -15,7 +15,7 @@ export default function Home() {
               <span style={{ color: '#009cda' }}>Il primo network tecnico per officine</span>
             </h1>
             <p className="text-lg text-gray-700 max-w-xl mb-6">
-              <strong><span style={{ color: '#009cda' }}>ON</span>DRIVE</strong> connette officine indipendenti in tutta Italia offrendo soluzioni moderne, 
+              <strong>ON<span style={{ color: '#009cda' }}>DRIVE</span></strong> connette officine indipendenti in tutta Italia offrendo soluzioni moderne, 
               formazione continua e supporto digitale per affrontare le sfide dell'automotive di oggi e di domani.
             </p>
             <Link
