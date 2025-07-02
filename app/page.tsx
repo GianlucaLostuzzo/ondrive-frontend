@@ -1,15 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import SearchWorkshop from '@/app/components/SearchWorkshop';
+import dynamic from 'next/dynamic';
+
+// Carica direttamente la nuova mappa con tutte le officine
+const SearchWorkshop = dynamic(() => import('@/app/components/AllWorkshopsMap'), {
+  ssr: false,
+});
 
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
       <main className="flex-grow">
-        {/* Hero + Research section */}
+        {/* Hero + Mappa officine section */}
         <section className="flex flex-col md:flex-row bg-gray-50 px-6 py-16 text-gray-800 gap-8 max-w-7xl mx-auto w-full">
-        {/* Colonna sinistra */}
+          {/* Colonna sinistra */}
           <div className="flex-1 text-center md:text-left flex flex-col justify-center">
             <h1 className="text-4xl font-extrabold text-blue-900 mb-4">
               <span style={{ color: '#009cda' }}>Il primo network tecnico per officine</span>
@@ -26,9 +31,9 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Colonna destra */}
+          {/* Colonna destra - Mappa */}
           <div className="flex-1 bg-white rounded-lg shadow-md p-6">
-              <SearchWorkshop />
+            <SearchWorkshop />
           </div>
         </section>
       </main>

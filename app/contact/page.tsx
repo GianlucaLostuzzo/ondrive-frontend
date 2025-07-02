@@ -9,7 +9,7 @@ export default function Contact() {
         {/* Informazioni di contatto */}
         <section className="mb-10">
           <p className="mb-2">
-            Puoi contattarci via email o telefono per qualsiasi richiesta relativa al network OnDrive, 
+            Puoi contattarci via email o telefono per qualsiasi richiesta relativa al network ONDRIVE, 
             alla tua officina o per diventare partner.
           </p>
           <ul className="text-md text-gray-700 space-y-1 mt-4">
