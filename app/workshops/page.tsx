@@ -20,7 +20,6 @@ type Workshop = {
 };
 
 export default function WorkshopsPage() {
-  console.log('✅ COMPONENTE MONTATO');
 
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [filtered, setFiltered] = useState<Workshop[]>([]);
@@ -30,8 +29,6 @@ export default function WorkshopsPage() {
   const [selectedServices, setSelectedServices] = useState<string[]>([]);
 
   useEffect(() => {
-    console.log('📡 ESEGUO FETCH useEffect');
-
     const base = process.env.NEXT_PUBLIC_STRAPI_URL;
     const token = process.env.NEXT_PUBLIC_STRAPI_TOKEN;
 
@@ -41,7 +38,6 @@ export default function WorkshopsPage() {
     }
 
     const url = `${base}/api/workshops?populate[company_data]=true&populate[address]=true&populate[services]=true&populate[opening_days]=true`;
-    console.log('🌍 URL USATO:', url);
 
     const run = async () => {
       try {
@@ -57,7 +53,6 @@ export default function WorkshopsPage() {
         }
 
         const data = await res.json();
-        console.log('📥 RESPONSE DATA:', data);
 
         const parsed = (data.data || []).map((w: any) => ({
           id: w.id,
@@ -66,8 +61,6 @@ export default function WorkshopsPage() {
           opening_days: w.opening_days,
           services: w.services,
         })) as Workshop[];
-
-        console.log('✅ PARSED WORKSHOPS:', parsed);
 
         setWorkshops(parsed);
         setFiltered(parsed);
