@@ -6,6 +6,7 @@ import ServiceFilter from '@/app/components/ServiceFilter';
 
 type Workshop = {
   id: number;
+  slug: string;
   company_data?: { name?: string; vatnumber?: string };
   address?: {
     via?: string;
@@ -20,7 +21,6 @@ type Workshop = {
 };
 
 export default function WorkshopsPage() {
-
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
   const [filtered, setFiltered] = useState<Workshop[]>([]);
   const [loading, setLoading] = useState(true);
@@ -53,14 +53,20 @@ export default function WorkshopsPage() {
         }
 
         const data = await res.json();
+        console.log('🌐 Risposta API:', data);
 
-        const parsed = (data.data || []).map((w: any) => ({
-          id: w.id,
-          company_data: w.company_data,
-          address: w.address,
-          opening_days: w.opening_days,
-          services: w.services,
-        })) as Workshop[];
+        const parsed = (data.data || []).map((w: any) => {
+          const workshop = {
+            id: w.id,
+            slug: w.slug,
+            company_data: w.company_data,
+            address: w.address,
+            opening_days: w.opening_days,
+            services: w.services,
+          };
+          console.log('✅ Workshop parsed:', workshop);
+          return workshop;
+        }) as Workshop[];
 
         setWorkshops(parsed);
         setFiltered(parsed);
@@ -69,6 +75,8 @@ export default function WorkshopsPage() {
           new Set(parsed.flatMap((w) => w.services?.map((s) => s.name) || []))
         );
         setAllServices(uniq);
+
+        console.log('✅ Servizi unici:', uniq);
       } catch (err) {
         console.error('❌ ERRORE FETCH:', err);
       } finally {
@@ -84,7 +92,7 @@ export default function WorkshopsPage() {
 
     const result = workshops.filter((w) => {
       const matchQuery =
-        w.address?.citta?.toLowerCase().includes(q) ||
+        !q || w.address?.citta?.toLowerCase().includes(q) ||
         w.address?.cap?.toLowerCase().includes(q);
 
       const matchServices =
@@ -94,15 +102,21 @@ export default function WorkshopsPage() {
       return matchQuery && matchServices;
     });
 
+    console.log('🔍 Filtrati:', result.length, '/', workshops.length);
     setFiltered(result);
   }, [searchQuery, selectedServices, workshops]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-700 mb-10 text-center">
+        <h1 className="text-3xl font-bold text-gray-700 mb-6 text-center">
           Trova un'officina ON<span className="text-[#009cda]">DRIVE</span>
         </h1>
+
+        {/* Debug visuale */}
+        <p className="text-center text-sm text-gray-400 mb-6">
+          Visualizzate: {filtered.length} su {workshops.length} officine
+        </p>
 
         <div className="flex flex-col md:flex-row gap-10">
           {/* Colonna sinistra: FILTRI */}
@@ -140,7 +154,7 @@ export default function WorkshopsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {filtered.map((w) => (
                   <Link
-                    href={`/workshops/${w.id}`}
+                    href={`/workshops/${w.slug}`}
                     key={w.id}
                     className="block bg-white p-4 rounded-lg shadow border hover:shadow-md transition"
                   >
