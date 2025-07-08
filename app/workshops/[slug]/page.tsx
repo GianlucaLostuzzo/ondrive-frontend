@@ -21,7 +21,7 @@ export default function WorkshopDetailPage() {
 
         const queryParams = new URLSearchParams();
         queryParams.append('filters[slug][$eq]', slug as string);
-        ['company_data', 'address', 'services', 'opening_days'].forEach((p) =>
+        ['company_data', 'address', 'services', 'opening_days', 'images'].forEach((p) =>
           queryParams.append(`populate[${p}]`, 'true')
         );
 
@@ -35,6 +35,8 @@ export default function WorkshopDetailPage() {
         });
 
         const data = await res.json();
+
+        console.log('📦 Risposta completa da Strapi:', data);
 
         if (!res.ok || !data.data?.length) {
           console.error('❌ API response error:', data);
@@ -60,6 +62,7 @@ export default function WorkshopDetailPage() {
   const address = workshop.address || {};
   const services = workshop.services || [];
   const orari = workshop.opening_days || [];
+  const images = workshop.images || [];
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
@@ -108,16 +111,35 @@ export default function WorkshopDetailPage() {
           </div>
         </aside>
 
-        {/* DESTRA: immagini o contenuto extra */}
+        {/* DESTRA: immagini */}
         <aside className="md:w-1/2 w-full">
           <div className="bg-white p-6 rounded shadow h-full">
-            <h2 className="font-semibold text-gray-800 mb-4">Galleria immagini</h2>
-            {/* 🔧 Sostituisci con immagini reali se disponibili */}
+            <h2 className="font-semibold text-gray-800 mb-4">Scopri l'officina!</h2>
             <div className="grid grid-cols-2 gap-4">
-              <div className="bg-gray-200 h-40 rounded animate-pulse" />
-              <div className="bg-gray-200 h-40 rounded animate-pulse" />
-              <div className="bg-gray-200 h-40 rounded animate-pulse" />
-              <div className="bg-gray-200 h-40 rounded animate-pulse" />
+              {(() => {
+                console.log('🧪 Controllo immagini:', images);
+
+                if (images.length > 0) {
+                  return images.map((img: any) => {
+                    const fullUrl = img.url.startsWith('http')
+                      ? img.url
+                      : `${process.env.NEXT_PUBLIC_STRAPI_URL}${img.url}`;
+
+                    console.log('🖼️ URL immagine:', fullUrl);
+
+                    return (
+                      <img
+                        key={img.id}
+                        src={fullUrl}
+                        alt={img.alternativeText || 'Immagine officina'}
+                        className="rounded object-cover h-40 w-full"
+                      />
+                    );
+                  });
+                } else {
+                  return <p className="text-sm text-gray-500">Nessuna immagine disponibile</p>;
+                }
+              })()}
             </div>
           </div>
         </aside>
