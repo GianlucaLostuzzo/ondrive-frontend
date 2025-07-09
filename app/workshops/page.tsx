@@ -130,7 +130,7 @@ export default function WorkshopsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Es. Torino o 10133"
-                className="w-full border px-4 py-2 rounded-md"
+                className="w-full border text-gray-500 px-4 py-2 rounded-md"
               />
             </div>
 
