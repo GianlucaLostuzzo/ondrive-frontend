@@ -17,7 +17,7 @@ type Workshop = {
     nazione?: string;
   };
   opening_days?: { days: string; opening_hour: string; closing_hour: string }[];
-  services?: { name: string; description?: string }[];
+  type?: { category: string }[];
 };
 
 export default function WorkshopsPage() {
@@ -25,8 +25,8 @@ export default function WorkshopsPage() {
   const [filtered, setFiltered] = useState<Workshop[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [allServices, setAllServices] = useState<string[]>([]);
-  const [selectedServices, setSelectedServices] = useState<string[]>([]);
+  const [allTypes, setAllTypes] = useState<string[]>([]);
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_STRAPI_URL;
@@ -37,7 +37,7 @@ export default function WorkshopsPage() {
       return;
     }
 
-    const url = `${base}/api/workshops?populate[company_data]=true&populate[address]=true&populate[services]=true&populate[opening_days]=true`;
+    const url = `${base}/api/workshops?populate[company_data]=true&populate[address]=true&populate[type]=true&populate[opening_days]=true`;
 
     const run = async () => {
       try {
@@ -53,7 +53,6 @@ export default function WorkshopsPage() {
         }
 
         const data = await res.json();
-        console.log('🌐 Risposta API:', data);
 
         const parsed = (data.data || []).map((w: any) => {
           const workshop = {
@@ -62,9 +61,10 @@ export default function WorkshopsPage() {
             company_data: w.company_data,
             address: w.address,
             opening_days: w.opening_days,
-            services: w.services,
+            type: w.type,
+            bio: w.bio || '', // Aggiunta del campo bio
           };
-          console.log('✅ Workshop parsed:', workshop);
+ 
           return workshop;
         }) as Workshop[];
 
@@ -72,11 +72,10 @@ export default function WorkshopsPage() {
         setFiltered(parsed);
 
         const uniq = Array.from(
-          new Set(parsed.flatMap((w) => w.services?.map((s) => s.name) || []))
+          new Set(parsed.flatMap((w) => w.type?.map((t) => t.category) || []))
         );
-        setAllServices(uniq);
+        setAllTypes(uniq);
 
-        console.log('✅ Servizi unici:', uniq);
       } catch (err) {
         console.error('❌ ERRORE FETCH:', err);
       } finally {
@@ -95,16 +94,15 @@ export default function WorkshopsPage() {
         !q || w.address?.citta?.toLowerCase().includes(q) ||
         w.address?.cap?.toLowerCase().includes(q);
 
-      const matchServices =
-        selectedServices.length === 0 ||
-        w.services?.some((s) => selectedServices.includes(s.name));
+      const matchType =
+        selectedTypes.length === 0 ||
+        w.type?.some((t) => selectedTypes.includes(t.category));
 
-      return matchQuery && matchServices;
+      return matchQuery && matchType;
     });
 
-    console.log('🔍 Filtrati:', result.length, '/', workshops.length);
     setFiltered(result);
-  }, [searchQuery, selectedServices, workshops]);
+  }, [searchQuery, selectedTypes, workshops]);
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
@@ -113,13 +111,12 @@ export default function WorkshopsPage() {
           Trova un'officina ON<span className="text-[#009cda]">DRIVE</span>
         </h1>
 
-        {/* Debug visuale */}
         <p className="text-center text-sm text-gray-400 mb-6">
           Visualizzate: {filtered.length} su {workshops.length} officine
         </p>
 
         <div className="flex flex-col md:flex-row gap-10">
-          {/* Colonna sinistra: FILTRI */}
+          {/* FILTRI */}
           <aside className="md:w-1/3 w-full space-y-6 bg-white p-6 rounded-lg shadow">
             <div>
               <label className="block text-lg font-semibold text-gray-700 mb-1">
@@ -135,16 +132,16 @@ export default function WorkshopsPage() {
             </div>
 
             <div>
-              <h2 className="text-lg text-gray-700 font-semibold mb-2">Filtra per servizio</h2>
+              <h2 className="text-lg text-gray-700 font-semibold mb-2">Filtra per categoria</h2>
               <ServiceFilter
-                services={allServices}
-                selected={selectedServices}
-                onChange={setSelectedServices}
+                services={allTypes}
+                selected={selectedTypes}
+                onChange={setSelectedTypes}
               />
             </div>
           </aside>
 
-          {/* Colonna destra: RISULTATI */}
+          {/* RISULTATI */}
           <section className="md:w-2/3 w-full">
             {loading ? (
               <p className="text-gray-600">Caricamento in corso...</p>
@@ -168,12 +165,12 @@ export default function WorkshopsPage() {
                       {w.address?.provincia}, {w.address?.nazione}
                     </p>
                     <div className="mt-2">
-                      {w.services?.map((s, i) => (
+                      {w.type?.map((t, i) => (
                         <span
                           key={i}
                           className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full mr-1 mb-1"
                         >
-                          {s.name}
+                          {t.category}
                         </span>
                       ))}
                     </div>

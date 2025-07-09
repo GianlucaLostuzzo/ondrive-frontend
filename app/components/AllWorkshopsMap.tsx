@@ -6,14 +6,16 @@ import WorkshopMap from './Map';
 
 type Workshop = {
   id: number;
+  slug: string;
   company_data?: { name?: string };
   address?: {
-    via?: string;
-    numero?: string;
-    citta?: string;
-    cap?: string;
     lat?: string;
     lon?: string;
+    citta?: string;
+    via?: string;
+    numero?: string;
+    cap?: string;
+    provincia?: string;
   };
 };
 
@@ -49,6 +51,7 @@ export default function AllWorkshopsMap() {
 
       return (data.data || []).map((w: any) => ({
         id: w.id,
+        slug: w.slug || '',
         company_data: w.company_data || { name: 'Officina senza nome' },
         address: w.address || undefined,
       })) as Workshop[];
@@ -57,6 +60,8 @@ export default function AllWorkshopsMap() {
       throw err;
     }
   };
+
+  console.log('🔄 Test:', workshops);
 
   useEffect(() => {
     fetchWorkshops()
@@ -71,7 +76,7 @@ export default function AllWorkshopsMap() {
     <section className="bg-white py-12 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Le Officine del network ON<span style={{ color: '#009cda' }}>DRIVE</span>
+          Le Officine del network ON<span style={{ color: '#0e9dda' }}>DRIVE</span>
         </h2>
 
         {error && <p className="text-red-600 mb-4">{error}</p>}

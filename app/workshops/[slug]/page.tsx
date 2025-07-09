@@ -3,11 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { JSX } from 'react';
 import { useParams } from 'next/navigation';
-import {
-  BiSolidCarMechanic,
-  BiSolidCarBattery,
-  BiSolidSprayCan,
-} from 'react-icons/bi';
+import { BiSolidCarMechanic,BiSolidCarBattery,BiSolidSprayCan } from 'react-icons/bi';
 import { GiCarWheel, GiTowTruck } from 'react-icons/gi';
 import { FaMotorcycle } from 'react-icons/fa';
 import { GrMapLocation } from 'react-icons/gr';
@@ -31,7 +27,7 @@ export default function WorkshopDetailPage() {
 
         const queryParams = new URLSearchParams();
         queryParams.append('filters[slug][$eq]', slug as string);
-        ['company_data', 'address', 'services', 'opening_days', 'images'].forEach((p) =>
+        ['company_data', 'address', 'opening_days', 'type', 'services', 'images'].forEach((p) =>
           queryParams.append(`populate[${p}]`, 'true')
         );
 
@@ -42,6 +38,8 @@ export default function WorkshopDetailPage() {
 
         const data = await res.json();
         if (!res.ok || !data.data?.length) throw new Error('Workshop non trovato');
+
+        console.log('🧩 Struttura completa da Strapi:', data);
 
         setWorkshop({ id: data.data[0].id, ...data.data[0] });
       } catch (err: any) {
@@ -91,6 +89,7 @@ export default function WorkshopDetailPage() {
   const services = workshop.services || [];
   const orari = workshop.opening_days || [];
   const images = workshop.images || [];
+  const bio = workshop.bio || '';
   const style = { color: 'oklch(37.9% .146 265.522)', fontSize: '50px' };
 
   const iconByServiceName: Record<string, JSX.Element> = {
@@ -107,7 +106,7 @@ export default function WorkshopDetailPage() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
         {/* SINISTRA */}
         <aside className="md:w-1/2 w-full">
-          <div className="bg-white p-6 rounded shadow">
+          <div className="bg-white p-6 rounded shadow h-full">
             <h1 className="text-2xl font-bold text-blue-900 mb-2">
               {company.name || 'Officina senza nome'}
             </h1>
@@ -128,9 +127,9 @@ export default function WorkshopDetailPage() {
             )}
 
             <div className="mt-6">
-              <h2 className="font-semibold text-gray-800 mb-2">Orari di apertura</h2>
+              <h2 className="font-semibold text-lg text-gray-800 mb-2">Orari di apertura</h2>
               {orari.length > 0 ? (
-                <ul className="text-sm text-gray-600">
+                <ul className="text-md text-gray-600">
                   {orari.map((o: any, i: number) => (
                     <li key={i}>
                       {o.days}: {o.opening_hour} - {o.closing_hour}
@@ -142,30 +141,19 @@ export default function WorkshopDetailPage() {
               )}
             </div>
 
-            <div className="flex flex-wrap gap-4 items-center">
-              {services.map((s: any, i: number) =>
-                iconByServiceName[s.name] ? (
-                  <div key={i} className="flex flex-col items-center text-center w-20">
-                    {iconByServiceName[s.name]}
-                    <p className="text-xs mt-1 text-gray-600">{s.name}</p>
-                  </div>
-                ) : null
-              )}
+            <div className="flex flex-wrap gap-4 items-center mt-6">
+                {workshop.type?.map((t: any, i: number) =>
+                  iconByServiceName[t.category] ? (
+                    <div key={i} className="flex flex-col items-center text-center w-20">
+                      {iconByServiceName[t.category]}
+                      <p className="text-sm mt-1 text-gray-600">{t.category}</p>
+                    </div>
+                  ) : null
+                )}
             </div>
-
             <div className="mt-6">
-              <h2 className="font-semibold text-gray-800 mb-2">Servizi offerti</h2>
-              {services.length > 0 ? (
-                <ul className="text-sm text-gray-700">
-                  {services.map((s: any, i: number) => (
-                    <li key={i} className="mb-1">
-                      <strong>{s.name}</strong>: {s.description}
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="text-sm text-gray-500">Nessun servizio ancora registrato</p>
-              )}
+              <h2 className="font-semibold text-lg text-gray-800 mb-2">La storia</h2>
+              <p className="text-md text-gray-600">{bio || 'Nessuna descrizione disponibile.'}</p>
             </div>
           </div>
         </aside>
@@ -173,9 +161,8 @@ export default function WorkshopDetailPage() {
         {/* DESTRA */}
         <aside className="md:w-1/2 w-full relative">
           <div className="bg-white p-6 rounded shadow h-full relative">
-            <h2 className="font-semibold text-gray-800 mb-4">Scopri l'officina!</h2>
+            <h2 className="text-2xl font-bold text-blue-900 mb-2">Scopri l'officina</h2>
             <div className="relative w-full h-80 overflow-hidden rounded">
-              {/* IMMAGINI */}
               {images.map((img: any, i: number) => {
                 const fullUrl = img.url.startsWith('http')
                   ? img.url
@@ -192,7 +179,7 @@ export default function WorkshopDetailPage() {
                 );
               })}
 
-              {/* CONTROLLI SEMPRE SOPRA */}
+              {/* CONTROLLI */}
               <div className="absolute inset-0 flex items-center justify-between px-4 z-20">
                 <button
                   onClick={handlePrev}
@@ -204,7 +191,7 @@ export default function WorkshopDetailPage() {
                   onClick={handleNext}
                   className="bg-white/80 hover:bg-white p-2 rounded-full shadow"
                 >
-                  <FiChevronRight size={24} style={{ color: 'rgb(59,130,246)' }}/>
+                  <FiChevronRight size={24} style={{ color: 'rgb(59,130,246)' }} />
                 </button>
               </div>
 
@@ -223,6 +210,22 @@ export default function WorkshopDetailPage() {
             </div>
           </div>
         </aside>
+      </div>
+
+      {/* BLOCCHI SERVIZI OFFERTI SOTTO */}
+      <div className="max-w-7xl mx-auto mt-8 bg-white p-6 rounded shadow">
+        <h2 className="text-2xl font-bold text-blue-900 mb-2">Come puoi essere assistito</h2>
+        {services.length > 0 ? (
+          <ul className="text-lg text-gray-700">
+            {services.map((s: any, i: number) => (
+              <li key={i} className="mb-1">
+                <strong>{s.name}</strong>: {s.description}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-sm text-gray-500">Nessun servizio ancora registrato</p>
+        )}
       </div>
     </div>
   );
