@@ -117,7 +117,7 @@ export default function WorkshopDetailPage() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-gray-700 hover:underline mb-4"
+                className="flex items-center gap-2 font-semibold text-blue-500 hover:underline mb-4"
               >
                 <GrMapLocation />
                 <span>

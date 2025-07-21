@@ -2,7 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import ServiceFilter from '@/app/components/ServiceFilter';
+
+const AllWorkshopsMap = dynamic(() => import('@/app/components/AllWorkshopsMap'), {
+  ssr: false,
+});
 
 type Workshop = {
   id: number;
@@ -107,13 +112,9 @@ export default function WorkshopsPage() {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-700 mb-6 text-center">
-          Trova un'officina ON<span className="text-[#009cda]">DRIVE</span>
-        </h1>
-
-        <p className="text-center text-sm text-gray-400 mb-6">
-          Visualizzate: {filtered.length} su {workshops.length} officine
-        </p>
+        <div className="mb-8">
+          <AllWorkshopsMap workshops={workshops} />
+        </div>
 
         <div className="flex flex-col md:flex-row gap-10">
           {/* FILTRI */}
@@ -181,6 +182,9 @@ export default function WorkshopsPage() {
           </section>
         </div>
       </div>
+      <p className="text-center text-sm text-gray-400 mb-6">
+        Visualizzate: {filtered.length} su {workshops.length} officine
+      </p>
     </div>
   );
 }

@@ -4,21 +4,21 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import { FaWrench, FaRegClipboard, FaTools } from 'react-icons/fa';
 
-// Carica direttamente la nuova mappa con tutte le officine
-const SearchWorkshop = dynamic(() => import('@/app/components/AllWorkshopsMap'), {
+// Carica il componente del form di ricerca (dinamico per evitare errori SSR)
+const SearchWorkshopForm = dynamic(() => import('@/app/components/WorkshopSearchForm'), {
   ssr: false,
 });
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-r from-[#e9f7fc] to-gray-50">
+    <div className="min-h-screen flex flex-col bg-white">
       <main className="flex-grow">
-        {/* Hero + Mappa officine section */}
-        <section className="flex flex-col md:flex-row bg-gradient-to-r from-[#e9f7fc] to-gray-50 px-6 py-10 text-gray-800 gap-8 max-w-7xl mx-auto w-full">
+        {/* Hero + Ricerca officina */}
+        <section className="flex flex-col md:flex-row bg-white px-6 py-10 text-gray-800 gap-8 max-w-7xl mx-auto w-full">
           {/* Colonna sinistra */}
           <div className="flex-1 text-center md:text-left flex flex-col justify-center">
             <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
-              <h1 className="text-4xl font-extrabold text-blue-900">
+              <h1 className="text-4xl font-extrabold text-gray-800">
                 <strong>ON<span style={{ color: '#0e9dda' }}>DRIVE</span></strong> - Il primo network tecnico
               </h1>
             </div>
@@ -40,10 +40,10 @@ export default function Home() {
             </Link>
           </div>
 
-          {/* Colonna destra - Mappa */}
+          {/* Colonna destra - Form di ricerca */}
           <div className="flex-1 flex items-center justify-center">
             <div className="w-full max-w-lg bg-white rounded-xl shadow-md border border-blue-100 overflow-hidden min-h-[300px] p-4">
-              <SearchWorkshop />
+              <SearchWorkshopForm />
             </div>
           </div>
         </section>

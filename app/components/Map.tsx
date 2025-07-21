@@ -1,8 +1,9 @@
 'use client';
 
-import { GoogleMap, Marker, InfoWindow, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import { useGoogleMapsLoader } from '@/lib/useGoogleMapsLoader'; // ✅ loader centralizzato
 
 type Workshop = {
   id: number;
@@ -26,11 +27,7 @@ type MapProps = {
 export default function WorkshopMap({ workshops }: MapProps) {
   const [activeId, setActiveId] = useState<number | null>(null);
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    language: 'it',
-    region: 'IT',
-  });
+  const { isLoaded, loadError } = useGoogleMapsLoader(); // ✅ usa loader centralizzato
 
   const valid = useMemo(
     () => workshops.filter(w => w.address?.lat && w.address?.lon),
@@ -40,16 +37,17 @@ export default function WorkshopMap({ workshops }: MapProps) {
   const center = {
     lat: 44.4948, // Bologna
     lng: 11.3426, // Bologna
-  }
+  };
 
-  if (!isLoaded) return <p>Caricamento mappa...</p>;
+  if (loadError) return <p className="text-red-600">Errore caricamento Google Maps</p>;
+  if (!isLoaded) return <p className="text-gray-600">Caricamento mappa...</p>;
 
   return (
     <GoogleMap
       mapContainerStyle={{ width: '100%', height: '300px' }}
       center={center}
-      zoom={6.3} // Zoom adatto per l'Italia del Nord
-      onClick={() => setActiveId(null)} // clic sulla mappa chiude l'infowindow
+      zoom={6.3}
+      onClick={() => setActiveId(null)}
     >
       {valid.map((w) => {
         const lat = parseFloat(w.address!.lat!);

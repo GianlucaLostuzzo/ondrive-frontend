@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useJsApiLoader } from '@react-google-maps/api';
+import { useGoogleMapsLoader } from '@/lib/useGoogleMapsLoader'; // ✅ importa il loader centralizzato
 import WorkshopMap from './Map';
 
 type Workshop = {
@@ -24,11 +24,7 @@ export default function AllWorkshopsMap() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!,
-    language: 'it',
-    region: 'IT',
-  });
+  const { isLoaded, loadError } = useGoogleMapsLoader(); // ✅ usa hook centralizzato
 
   const fetchWorkshops = async () => {
     try {
@@ -61,8 +57,6 @@ export default function AllWorkshopsMap() {
     }
   };
 
-  console.log('🔄 Test:', workshops);
-
   useEffect(() => {
     fetchWorkshops()
       .then(setWorkshops)
@@ -76,10 +70,11 @@ export default function AllWorkshopsMap() {
     <section className="bg-white py-12 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Le Officine del network ON<span style={{ color: '#0e9dda' }}>DRIVE</span>
+          Trova un'officina ON<span style={{ color: '#0e9dda' }}>DRIVE</span>
         </h2>
 
         {error && <p className="text-red-600 mb-4">{error}</p>}
+        {loadError && <p className="text-red-600 mb-4">Errore nel caricamento di Google Maps</p>}
 
         {loading || !isLoaded ? (
           <p className="text-gray-600">Caricamento mappa...</p>
