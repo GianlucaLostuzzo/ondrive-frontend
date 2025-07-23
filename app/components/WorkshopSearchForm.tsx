@@ -138,7 +138,7 @@ export default function WorkshopSearchForm() {
       <div className="flex justify-center">
         <button
           onClick={handleSearch}
-          className="w-1/2 bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer"
+          className="w-1/2 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer"
         >
           Cerca
         </button>
