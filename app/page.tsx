@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import { FaWrench, FaRegClipboard, FaTools } from 'react-icons/fa';
 
 // Carica il componente del form di ricerca (dinamico per evitare errori SSR)
-const SearchWorkshopForm = dynamic(() => import('@/app/components/WorkshopSearchForm'), {
+const SearchWorkshopForm = dynamic(() => import('@/app/components/WorkshopSearchFormWrapper'), {
   ssr: false,
 });
 
@@ -52,7 +52,7 @@ export default function Home() {
         <section className="bg-gray-100 px-6 py-20 text-gray-800 w-full">
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-2xl font-bold mb-12">
-              Perché scegliere un'officina del network <span className="text-[#0e9dda]">ONDRIVE</span>?
+              Perché scegliere un'officina del network ON<span className="text-[#0e9dda]">DRIVE</span>?
             </h2>
 
             <div className="grid md:grid-cols-3 gap-10 text-left">
@@ -72,6 +72,32 @@ export default function Home() {
                 <FaTools className="text-[#0e9dda] text-4xl mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Formazione e tecnologia</h3>
                 <p>I nostri tecnici sono aggiornati costantemente e dotati di strumenti digitali di ultima generazione.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Sezione video e promo ONDRIVE */}
+        <section className="bg-white px-6 py-20 text-gray-800 w-full">
+          <div className="max-w-7xl mx-auto text-center">
+            <h2 className="text-2xl font-bold mb-12">
+              Novità e promozioni del network ON<span className="text-[#0e9dda]">DRIVE</span>
+            </h2>
+
+            <div className="grid md:grid-cols-3 gap-10 text-left">
+              <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 className="text-lg font-semibold mb-2">Promozione</h3>
+                <p>Immagine</p>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 className="text-lg font-semibold mb-2">Video</h3>
+                <p>Video news</p>
+              </div>
+
+              <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 className="text-lg font-semibold mb-2">News</h3>
+                <p>Altra news</p>
               </div>
             </div>
           </div>

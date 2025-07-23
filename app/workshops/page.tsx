@@ -113,7 +113,7 @@ export default function WorkshopsPage() {
     <div className="min-h-screen bg-gray-50 py-10 px-4 md:px-10">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <AllWorkshopsMap workshops={workshops} />
+          <AllWorkshopsMap workshops={filtered} />
         </div>
 
         <div className="flex flex-col md:flex-row gap-10">
