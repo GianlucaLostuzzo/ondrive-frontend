@@ -15,7 +15,7 @@ export default function Header() {
   ];
 
   return (
-    <header className="bg-white shadow z-50 relative">
+    <header className="bg-blue-900 shadow z-50 relative">
       <div className="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
         {/* Logo */}
         <Link href="/">

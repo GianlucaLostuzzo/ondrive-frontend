@@ -5,7 +5,7 @@ import type { JSX } from 'react';
 import { useParams } from 'next/navigation';
 import { BiSolidCarMechanic,BiSolidCarBattery,BiSolidSprayCan } from 'react-icons/bi';
 import { GiCarWheel, GiTowTruck } from 'react-icons/gi';
-import { FaMotorcycle } from 'react-icons/fa';
+import { FaMotorcycle, FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
 import { GrMapLocation } from 'react-icons/gr';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
@@ -27,7 +27,7 @@ export default function WorkshopDetailPage() {
 
         const queryParams = new URLSearchParams();
         queryParams.append('filters[slug][$eq]', slug as string);
-        ['company_data', 'address', 'opening_days', 'type', 'services', 'images'].forEach((p) =>
+        ['company_data', 'address', 'opening_days', 'type', 'services', 'images', 'logo'].forEach((p) =>
           queryParams.append(`populate[${p}]`, 'true')
         );
 
@@ -90,6 +90,7 @@ export default function WorkshopDetailPage() {
   const orari = workshop.opening_days || [];
   const images = workshop.images || [];
   const bio = workshop.bio || '';
+  const logo = workshop.logo || '';
   const style = { color: 'oklch(37.9% .146 265.522)', fontSize: '50px' };
 
   const iconByServiceName: Record<string, JSX.Element> = {
@@ -124,6 +125,27 @@ export default function WorkshopDetailPage() {
                   {address.via} {address.numero}, {address.cap} {address.citta} ({address.provincia}), {address.nazione}
                 </span>
               </a>
+            )}
+
+            {company.phone && (
+                <p className="text-blue-600 mb-1 flex items-center gap-2">
+                  <FaPhoneAlt className="text-blue-500" size={20}/>
+                  <a href={`tel:${company.phone}`} className="hover:underline">{company.phone}</a>
+                </p>
+            )}
+
+            {company.whatsapp && (
+              <p className="text-green-600 mb-1 flex items-center gap-2">
+                <FaWhatsapp className="text-green-500" size={20}/>
+                <a
+                  href={`https://wa.me/${company.whatsapp.replace(/\D/g, '')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:underline"
+                >
+                  {company.whatsapp}
+                </a>
+              </p>
             )}
 
             <div className="mt-6">
@@ -161,7 +183,16 @@ export default function WorkshopDetailPage() {
         {/* DESTRA */}
         <aside className="md:w-1/2 w-full relative">
           <div className="bg-white p-6 rounded shadow h-full relative">
-            <h2 className="text-2xl font-bold text-blue-900 mb-2">Scopri l'officina</h2>
+            {logo?.url? (
+              <img
+                src={logo.url.startsWith('http') ? logo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${logo.url}`}
+                alt={logo.alternativeText || 'Logo officina'}
+                className="h-18 mb-4 object-contain mx-auto"
+              />
+            ) : (
+              <h2 className="text-2xl font-bold text-blue-900 mb-2">Scopri l'officina</h2>
+            )}
+            
             <div className="relative w-full h-80 overflow-hidden rounded">
               {images.map((img: any, i: number) => {
                 const fullUrl = img.url.startsWith('http')

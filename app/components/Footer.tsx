@@ -4,14 +4,12 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white py-6 px-6 text-center">
+    <footer className="bg-[#00B0F0] text-white py-6 px-6 text-center">
       <p className="text-sm">
-        &copy; {new Date().getFullYear()} C.D.R. S.r.l. – Tutti i diritti riservati
-      </p>
-      <div className="mt-2 space-x-4 text-sm">
-        <Link href="/privacy" className="hover:underline">Privacy</Link>
+        &copy; {new Date().getFullYear()} C.D.R. S.r.l. – Tutti i diritti riservati &nbsp;
+        <Link href="/privacy" className="hover:underline">Privacy</Link>&nbsp;
         <Link href="/terms" className="hover:underline">Termini</Link>
-      </div>
+      </p>
     </footer>
   );
 }

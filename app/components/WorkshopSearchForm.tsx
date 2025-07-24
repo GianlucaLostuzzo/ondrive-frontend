@@ -6,6 +6,7 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from 'use-places-autocomplete';
 import { useGoogleMapsLoader } from '@/lib/useGoogleMapsLoader';
+import { BsGeoAltFill } from "react-icons/bs";
 
 const radiusOptions = [5, 10, 20, 50]; // in km
 
@@ -76,7 +77,10 @@ export default function WorkshopSearchForm() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">Cerca l'officina più vicina a te!</h2>      
+      <h2 className="text-2xl font-bold text-white mb-4">OFFICINE DI FIDUCIA, VICINO A TE</h2>
+      <p>
+        <BsGeoAltFill className="inline-block mr-2 text-blue-500" />
+        Inserisci la tua posizione e scopri dove andare subito.</p>
       {/* Autocomplete input */}
       <input
         value={value}
@@ -102,7 +106,7 @@ export default function WorkshopSearchForm() {
       <div className="flex gap-4">
         {/* Raggio */}
         <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Raggio:</label>
+          <label className="block text-sm font-medium text-white mb-1">Raggio:</label>
           <select
             value={radius}
             onChange={(e) => setRadius(Number(e.target.value))}
@@ -118,7 +122,7 @@ export default function WorkshopSearchForm() {
 
         {/* Tipologia */}
         <div className="flex-1">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Tipologia:</label>
+          <label className="block text-sm font-medium text-white mb-1">Tipologia:</label>
           <select
             value={selectedTipo}
             onChange={(e) => setSelectedTipo(e.target.value)}
@@ -138,7 +142,7 @@ export default function WorkshopSearchForm() {
       <div className="flex justify-center">
         <button
           onClick={handleSearch}
-          className="w-1/2 bg-blue-500 text-white py-2 rounded-md hover:bg-blue-700 transition cursor-pointer"
+          className="w-1/2 bg-[#00B0F0] text-white py-2 rounded-md hover:bg-[#00A0E0] transition cursor-pointer"
         >
           Cerca
         </button>
