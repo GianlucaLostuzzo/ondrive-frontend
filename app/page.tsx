@@ -26,7 +26,7 @@ export default function Home() {
             {/* Colonna sinistra */}
             <div className="relative z-10 flex-1 text-center md:text-left flex flex-col justify-center bg-blue-900/80 text-white rounded-xl p-6 shadow-lg border border-blue-700">
               <h1 className="text-2xl font-extrabold mb-4">
-                La tua auto nelle mani giuste. Sempre
+                La tua auto nelle mani giuste. Sempre.
               </h1>
               <p className="text-lg mb-2">
                 <strong>ONDRIVE</strong> è il primo network tecnico che riunisce le migliori officine indipendenti d'Italia.
