@@ -3,7 +3,23 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
 import ServiceFilter from '@/app/components/ServiceFilter';
+
+function haversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const toRad = (value: number) => (value * Math.PI) / 180;
+  const R = 6371; // raggio della Terra in km
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+
+  const a =
+    Math.sin(dLat / 2) ** 2 +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) ** 2;
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+}
 
 const AllWorkshopsMap = dynamic(() => import('@/app/components/AllWorkshopsMap'), {
   ssr: false,
@@ -20,6 +36,8 @@ type Workshop = {
     provincia?: string;
     cap?: string;
     nazione?: string;
+    lat?: string;
+    lon?: string;
   };
   opening_days?: { days: string; opening_hour: string; closing_hour: string }[];
   type?: { category: string }[];
@@ -27,18 +45,21 @@ type Workshop = {
 
 export default function WorkshopsPage() {
   const [workshops, setWorkshops] = useState<Workshop[]>([]);
+  const [geoFiltered, setGeoFiltered] = useState<Workshop[]>([]);
   const [filtered, setFiltered] = useState<Workshop[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [allTypes, setAllTypes] = useState<string[]>([]);
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
+  const searchParams = useSearchParams();
+
   useEffect(() => {
     const base = process.env.NEXT_PUBLIC_STRAPI_URL;
     const token = process.env.NEXT_PUBLIC_STRAPI_TOKEN;
 
     if (!base || !token) {
-      console.error('❌ URL o TOKEN mancanti!');
+      console.error('URL o TOKEN mancanti!');
       return;
     }
 
@@ -58,6 +79,7 @@ export default function WorkshopsPage() {
         }
 
         const data = await res.json();
+
         const parsed = (data.data || []).map((w: any) => ({
           id: w.id,
           slug: w.slug,
@@ -69,12 +91,43 @@ export default function WorkshopsPage() {
         })) as Workshop[];
 
         setWorkshops(parsed);
-        setFiltered(parsed);
 
         const uniq = Array.from(
           new Set(parsed.flatMap((w) => w.type?.map((t) => t.category) || []))
         );
         setAllTypes(uniq);
+
+        const lat = parseFloat(searchParams.get('lat') || '');
+        const lng = parseFloat(searchParams.get('lng') || '');
+        const radius = parseInt(searchParams.get('radius') || '', 10);
+        const tipo = searchParams.get('tipo') || '';
+
+        if (!isNaN(lat) && !isNaN(lng) && !isNaN(radius)) {
+          const filteredByGeo = parsed.filter((w) => {
+            const wLat = parseFloat(w.address?.lat || '');
+            const wLng = parseFloat(w.address?.lon || '');
+
+            if (isNaN(wLat) || isNaN(wLng)) {
+              console.warn(`Coordinate non valide per:`, w.slug);
+              return false;
+            }
+
+            const dist = haversineDistance(lat, lng, wLat, wLng);
+            return dist <= radius;
+          });
+
+          const finalFiltered = tipo
+            ? filteredByGeo.filter((w) =>
+                w.type?.some((t) => t.category.toLowerCase() === tipo.toLowerCase())
+              )
+            : filteredByGeo;
+
+          setGeoFiltered(finalFiltered);
+          setFiltered(finalFiltered); // iniziale
+        } else {
+          setGeoFiltered(parsed);
+          setFiltered(parsed); // fallback
+        }
       } catch (err) {
         console.error('❌ ERRORE FETCH:', err);
       } finally {
@@ -83,12 +136,12 @@ export default function WorkshopsPage() {
     };
 
     run();
-  }, []);
+  }, [searchParams]);
 
   useEffect(() => {
     const q = searchQuery.toLowerCase();
 
-    const result = workshops.filter((w) => {
+    const result = geoFiltered.filter((w) => {
       const matchQuery =
         !q || w.address?.citta?.toLowerCase().includes(q) ||
         w.address?.cap?.toLowerCase().includes(q);
@@ -101,11 +154,11 @@ export default function WorkshopsPage() {
     });
 
     setFiltered(result);
-  }, [searchQuery, selectedTypes, workshops]);
+  }, [searchQuery, selectedTypes, geoFiltered]);
 
   return (
     <div
-      className="min-h-screen py-10 px-4 md:px-10 text-white"
+      className="min-h-screen py-10 px-4 md:px-10"
       style={{
         backgroundImage: 'url(/bg/hero.png)',
         backgroundSize: 'cover',
@@ -113,20 +166,13 @@ export default function WorkshopsPage() {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="bg-[#0c264b]/80 backdrop-blur-sm rounded-xl p-6 shadow-lg max-w-7xl mx-auto">
-        <section className="relative py-12 px-6">
-          <div className="absolute inset-0 z-0 rounded-xl" />
-          <h2 className="relative z-10 text-3xl font-bold text-center mb-6">
-            Trova un'officina ONDRIVE
-          </h2>
-          <div className="relative z-10">
-            <AllWorkshopsMap workshops={filtered} />
-          </div>
-        </section>
+      <div className="max-w-7xl mx-auto p-6 rounded-lg shadow">
+        <div className="mb-8">
+          <AllWorkshopsMap workshops={filtered} />
+        </div>
 
-        <div className="flex flex-col md:flex-row gap-10 mt-10">
-          {/* FILTRI */}
-          <aside className="md:w-1/3 w-full space-y-6 bg-[#0c264b]/70 border border-blue-800 backdrop-blur-md p-6 rounded-lg shadow">
+        <div className="flex flex-col md:flex-row gap-10">
+          <aside className="md:w-1/3 w-full space-y-6 bg-[#0c264b]/80 p-6 rounded-lg shadow border border-blue-800">
             <div>
               <label className="block text-lg font-semibold text-white mb-1">
                 Filtra per città o CAP
@@ -136,7 +182,7 @@ export default function WorkshopsPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Es. Torino o 10133"
-                className="w-full bg-white/20 border border-white/30 text-white placeholder:text-white/60 px-4 py-2 rounded-md"
+                className="w-full border border-white text-white px-4 py-2 rounded-md"
               />
             </div>
 
@@ -150,19 +196,18 @@ export default function WorkshopsPage() {
             </div>
           </aside>
 
-          {/* RISULTATI */}
           <section className="md:w-2/3 w-full">
             {loading ? (
               <p className="text-white">Caricamento in corso...</p>
             ) : filtered.length === 0 ? (
               <p className="text-white">Nessuna officina trovata.</p>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {filtered.map((w) => (
                   <Link
                     href={`/workshops/${w.slug}`}
                     key={w.id}
-                    className="block bg-[#0c264b]/70 hover:bg-[#0c264b]/90 p-6 rounded-lg shadow-lg border border-blue-800 transition transform hover:scale-[1.02]"
+                    className="block bg-[#0c264b]/80 p-4 rounded-lg shadow border border-blue-800 hover:shadow-md transition"
                   >
                     <h3 className="font-bold text-lg text-white mb-1 hover:underline">
                       {w.company_data?.name || 'Officina senza nome'}
@@ -170,14 +215,14 @@ export default function WorkshopsPage() {
                     <p className="text-sm text-white mb-1">
                       {w.address?.via} {w.address?.numero}, {w.address?.citta} ({w.address?.cap})
                     </p>
-                    <p className="text-xs text-white/80 mb-2">
+                    <p className="text-xs text-white mb-2">
                       {w.address?.provincia}, {w.address?.nazione}
                     </p>
-                    <div className="mt-2 flex flex-wrap gap-1">
+                    <div className="mt-2">
                       {w.type?.map((t, i) => (
                         <span
                           key={i}
-                          className="inline-block bg-[#00B0F0]/90 text-white text-xs px-3 py-1 rounded-full"
+                          className="inline-block bg-[#00B0F0] text-gray-100 text-xs px-2 py-1 rounded-full mr-1 mb-1"
                         >
                           {t.category}
                         </span>
@@ -190,9 +235,8 @@ export default function WorkshopsPage() {
           </section>
         </div>
       </div>
-
-      <p className="text-center text-sm text-white/70 mt-6">
-        Visualizzate: {filtered.length} su {workshops.length} officine
+      <p className="text-center text-sm text-gray-400 mb-6">
+        Visualizzate: {filtered.length} su {geoFiltered.length} officine nel raggio selezionato
       </p>
     </div>
   );

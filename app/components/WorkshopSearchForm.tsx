@@ -94,7 +94,7 @@ export default function WorkshopSearchForm() {
             <li
               key={place_id}
               onClick={() => handleSelect(description)}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              className="bg-[#0c264b]/80 px-4 py-2 hover:bg-[#00B0F0] text-white cursor-pointer"
             >
               {description}
             </li>
@@ -113,7 +113,7 @@ export default function WorkshopSearchForm() {
             className="border px-3 py-2 rounded-md text-sm w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
           >
             {radiusOptions.map((r) => (
-              <option key={r} value={r}>
+              <option key={r} value={r} className="bg-[#0c264b]/80 rounded-md text-white">
                 {r} km
               </option>
             ))}
@@ -126,11 +126,11 @@ export default function WorkshopSearchForm() {
           <select
             value={selectedTipo}
             onChange={(e) => setSelectedTipo(e.target.value)}
-            className="border px-3 py-2 rounded-md text-sm w-full focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            className="border px-3 py-2 rounded-md text-sm w-full focus:ring-blue-400"
           >
             <option value="">Tutte le tipologie</option>
             {tipiOfficina.map((tipo) => (
-              <option key={tipo} value={tipo}>
+              <option key={tipo} value={tipo} className="bg-[#0c264b]/80 rounded-md text-[#00B0F0]">
                 {tipo}
               </option>
             ))}

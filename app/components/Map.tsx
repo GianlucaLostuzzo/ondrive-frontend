@@ -1,9 +1,9 @@
 'use client';
 
 import { GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useGoogleMapsLoader } from '@/lib/useGoogleMapsLoader'; // ✅ loader centralizzato
+import { useGoogleMapsLoader } from '@/lib/useGoogleMapsLoader';
 
 type Workshop = {
   id: number;
@@ -26,28 +26,52 @@ type MapProps = {
 
 export default function WorkshopMap({ workshops }: MapProps) {
   const [activeId, setActiveId] = useState<number | null>(null);
+  const mapRef = useRef<google.maps.Map | null>(null);
 
-  const { isLoaded, loadError } = useGoogleMapsLoader(); // ✅ usa loader centralizzato
+  const { isLoaded, loadError } = useGoogleMapsLoader();
 
+  // Filtra solo le officine con coordinate valide
   const valid = useMemo(
-    () => workshops.filter(w => w.address?.lat && w.address?.lon),
+    () =>
+      workshops.filter((w) => {
+        const validLat = !isNaN(parseFloat(w.address?.lat || ''));
+        const validLon = !isNaN(parseFloat(w.address?.lon || ''));
+        return validLat && validLon;
+      }),
     [workshops]
   );
 
-  const center = {
-    lat: 44.4948, // Bologna
-    lng: 11.3426, // Bologna
-  };
+  // Quando la mappa è pronta e ci sono marker validi, fai il fit automatico
+  useEffect(() => {
+    if (mapRef.current && valid.length > 0) {
+      const bounds = new window.google.maps.LatLngBounds();
+      valid.forEach((w) => {
+        const lat = parseFloat(w.address!.lat!);
+        const lng = parseFloat(w.address!.lon!);
+        bounds.extend({ lat, lng });
+      });
+      mapRef.current.fitBounds(bounds);
+    }
+  }, [valid]);
 
   if (loadError) return <p className="text-red-600">Errore caricamento Google Maps</p>;
   if (!isLoaded) return <p className="text-gray-600">Caricamento mappa...</p>;
 
   return (
     <GoogleMap
-      mapContainerStyle={{ width: '100%', height: '300px', borderRadius: '0.5rem', borderColor: '#0c264b', borderWidth: '1px' }}
-      center={center}
-      zoom={6.3}
+      mapContainerStyle={{
+        width: '100%',
+        height: '300px',
+        borderRadius: '0.5rem',
+        borderColor: '#0c264b',
+        borderWidth: '1px',
+      }}
+      zoom={5}
+      center={{ lat: 44.4948, lng: 11.3426 }} // default fallback (Bologna)
       onClick={() => setActiveId(null)}
+      onLoad={(map) => {
+        mapRef.current = map;
+      }}
     >
       {valid.map((w) => {
         const lat = parseFloat(w.address!.lat!);
@@ -58,6 +82,9 @@ export default function WorkshopMap({ workshops }: MapProps) {
             key={w.id}
             position={{ lat, lng: lon }}
             onClick={() => setActiveId(w.id)}
+            icon={{
+              url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+            }}
           />
         );
       })}

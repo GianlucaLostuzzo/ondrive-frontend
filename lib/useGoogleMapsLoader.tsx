@@ -4,7 +4,7 @@
 import { useJsApiLoader } from '@react-google-maps/api';
 
 // ✅ Definizione esterna per evitare il warning
-const libraries: ('places' | 'maps')[] = ['places', 'maps'];
+const libraries: ('places' | 'maps' | 'marker')[] = ['places', 'maps', 'marker'];
 
 export function useGoogleMapsLoader() {
   const { isLoaded, loadError } = useJsApiLoader({
