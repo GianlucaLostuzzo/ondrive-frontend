@@ -44,7 +44,7 @@ export default function WorkshopMap({ workshops }: MapProps) {
 
   return (
     <GoogleMap
-      mapContainerStyle={{ width: '100%', height: '300px' }}
+      mapContainerStyle={{ width: '100%', height: '300px', borderRadius: '0.5rem', borderColor: '#0c264b', borderWidth: '1px' }}
       center={center}
       zoom={6.3}
       onClick={() => setActiveId(null)}
@@ -73,7 +73,7 @@ export default function WorkshopMap({ workshops }: MapProps) {
             position={{ lat, lng: lon }}
             onCloseClick={() => setActiveId(null)}
           >
-            <div className="text-sm max-w-xs">
+            <div className="text-sm max-w-xs rounded-lg shadow-lg p-4 bg-white">
               <p className="font-bold mb-1">{w.company_data?.name || 'Officina'}</p>
               <p>{w.address?.via} {w.address?.numero}</p>
               <p>{w.address?.cap} {w.address?.citta} ({w.address?.provincia})</p>

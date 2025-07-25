@@ -34,11 +34,8 @@ export default function AllWorkshopsMap({ workshops }: Props) {
   }
 
   return (
-    <section className="bg-white py-12 px-6">
-      <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Trova un'officina ON<span style={{ color: '#0e9dda' }}>DRIVE</span>
-        </h2>
+    <section className="py-12 px-6">
+      <div className="max-w-4xl mx-auto text-center rounded-lg shadow-lg">
         <WorkshopMap workshops={workshops} />
       </div>
     </section>

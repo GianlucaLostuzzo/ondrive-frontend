@@ -30,7 +30,7 @@ export default function ServiceFilter({ services, selected, onChange }: Props) {
             onChange={() => toggle(s)}
             className="mr-2"
           />
-          <span className="text-gray-700">{s}</span>
+          <span className="text-white">{s}</span>
         </label>
       ))}
     </div>

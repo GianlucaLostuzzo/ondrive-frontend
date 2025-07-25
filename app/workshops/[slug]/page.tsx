@@ -3,7 +3,11 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { JSX } from 'react';
 import { useParams } from 'next/navigation';
-import { BiSolidCarMechanic,BiSolidCarBattery,BiSolidSprayCan } from 'react-icons/bi';
+import {
+  BiSolidCarMechanic,
+  BiSolidCarBattery,
+  BiSolidSprayCan,
+} from 'react-icons/bi';
 import { GiCarWheel, GiTowTruck } from 'react-icons/gi';
 import { FaMotorcycle, FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
 import { GrMapLocation } from 'react-icons/gr';
@@ -18,12 +22,17 @@ export default function WorkshopDetailPage() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
+    if (!slug) return; // evita fetch se slug non disponibile
+
     const fetchWorkshop = async () => {
       try {
         const token = process.env.NEXT_PUBLIC_STRAPI_TOKEN;
         const baseUrl = process.env.NEXT_PUBLIC_STRAPI_URL;
 
-        if (!baseUrl || !token) throw new Error('❌ Variabili d’ambiente mancanti!');
+        if (!baseUrl || !token) {
+          setError('❌ Variabili d’ambiente mancanti!');
+          return;
+        }
 
         const queryParams = new URLSearchParams();
         queryParams.append('filters[slug][$eq]', slug as string);
@@ -34,12 +43,11 @@ export default function WorkshopDetailPage() {
         const url = `${baseUrl}/api/workshops?${queryParams.toString()}`;
         const res = await fetch(url, {
           headers: { Authorization: `Bearer ${token}` },
+          cache: 'no-store', // disattiva cache di Next.js
         });
 
         const data = await res.json();
         if (!res.ok || !data.data?.length) throw new Error('Workshop non trovato');
-
-        console.log('🧩 Struttura completa da Strapi:', data);
 
         setWorkshop({ id: data.data[0].id, ...data.data[0] });
       } catch (err: any) {
@@ -57,9 +65,7 @@ export default function WorkshopDetailPage() {
     if (!workshop?.images?.length) return;
 
     intervalRef.current = setInterval(() => {
-      setCurrentSlide((prev) =>
-        (prev + 1) % workshop.images.length
-      );
+      setCurrentSlide((prev) => (prev + 1) % workshop.images.length);
     }, 5000);
 
     return () => clearInterval(intervalRef.current as NodeJS.Timeout);
@@ -128,15 +134,15 @@ export default function WorkshopDetailPage() {
             )}
 
             {company.phone && (
-                <p className="text-blue-600 mb-1 flex items-center gap-2">
-                  <FaPhoneAlt className="text-blue-500" size={20}/>
-                  <a href={`tel:${company.phone}`} className="hover:underline">{company.phone}</a>
-                </p>
+              <p className="text-blue-600 mb-1 flex items-center gap-2">
+                <FaPhoneAlt className="text-blue-500" size={20} />
+                <a href={`tel:${company.phone}`} className="hover:underline">{company.phone}</a>
+              </p>
             )}
 
             {company.whatsapp && (
               <p className="text-green-600 mb-1 flex items-center gap-2">
-                <FaWhatsapp className="text-green-500" size={20}/>
+                <FaWhatsapp className="text-green-500" size={20} />
                 <a
                   href={`https://wa.me/${company.whatsapp.replace(/\D/g, '')}`}
                   target="_blank"
@@ -164,15 +170,16 @@ export default function WorkshopDetailPage() {
             </div>
 
             <div className="flex flex-wrap gap-4 items-center mt-6">
-                {workshop.type?.map((t: any, i: number) =>
-                  iconByServiceName[t.category] ? (
-                    <div key={i} className="flex flex-col items-center text-center w-20">
-                      {iconByServiceName[t.category]}
-                      <p className="text-sm mt-1 text-gray-600">{t.category}</p>
-                    </div>
-                  ) : null
-                )}
+              {workshop.type?.map((t: any, i: number) =>
+                iconByServiceName[t.category] ? (
+                  <div key={i} className="flex flex-col items-center text-center w-20">
+                    {iconByServiceName[t.category]}
+                    <p className="text-sm mt-1 text-gray-600">{t.category}</p>
+                  </div>
+                ) : null
+              )}
             </div>
+
             <div className="mt-6">
               <h2 className="font-semibold text-lg text-gray-800 mb-2">La storia</h2>
               <p className="text-md text-gray-600">{bio || 'Nessuna descrizione disponibile.'}</p>
@@ -183,7 +190,7 @@ export default function WorkshopDetailPage() {
         {/* DESTRA */}
         <aside className="md:w-1/2 w-full relative">
           <div className="bg-white p-6 rounded shadow h-full relative">
-            {logo?.url? (
+            {logo?.url ? (
               <img
                 src={logo.url.startsWith('http') ? logo.url : `${process.env.NEXT_PUBLIC_STRAPI_URL}${logo.url}`}
                 alt={logo.alternativeText || 'Logo officina'}
@@ -192,7 +199,7 @@ export default function WorkshopDetailPage() {
             ) : (
               <h2 className="text-2xl font-bold text-blue-900 mb-2">Scopri l'officina</h2>
             )}
-            
+
             <div className="relative w-full h-80 overflow-hidden rounded">
               {images.map((img: any, i: number) => {
                 const fullUrl = img.url.startsWith('http')
@@ -212,16 +219,10 @@ export default function WorkshopDetailPage() {
 
               {/* CONTROLLI */}
               <div className="absolute inset-0 flex items-center justify-between px-4 z-20">
-                <button
-                  onClick={handlePrev}
-                  className="bg-white/80 hover:bg-white p-2 rounded-full shadow"
-                >
+                <button onClick={handlePrev} className="bg-white/80 hover:bg-white p-2 rounded-full shadow">
                   <FiChevronLeft size={24} style={{ color: 'rgb(59,130,246)' }} />
                 </button>
-                <button
-                  onClick={handleNext}
-                  className="bg-white/80 hover:bg-white p-2 rounded-full shadow"
-                >
+                <button onClick={handleNext} className="bg-white/80 hover:bg-white p-2 rounded-full shadow">
                   <FiChevronRight size={24} style={{ color: 'rgb(59,130,246)' }} />
                 </button>
               </div>
@@ -243,7 +244,7 @@ export default function WorkshopDetailPage() {
         </aside>
       </div>
 
-      {/* BLOCCHI SERVIZI OFFERTI SOTTO */}
+      {/* SERVIZI OFFERTI */}
       <div className="max-w-7xl mx-auto mt-8 bg-white p-6 rounded shadow">
         <h2 className="text-2xl font-bold text-blue-900 mb-2">Come puoi essere assistito</h2>
         {services.length > 0 ? (
