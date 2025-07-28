@@ -160,13 +160,13 @@ export default function ClientPage() {
     <div
       className="min-h-screen py-10 px-4 md:px-10"
       style={{
-        backgroundImage: 'url(/bg/hero.png)',
+        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)),url(/bg/hero.png)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
-      <div className="max-w-7xl mx-auto p-6 rounded-lg shadow">
+      <div className="max-w-7xl mx-auto p-6">
         <div className="mb-8">
           <AllWorkshopsMap workshops={filtered} />
         </div>

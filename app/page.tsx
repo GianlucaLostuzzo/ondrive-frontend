@@ -22,7 +22,7 @@ export default function Home() {
             backgroundRepeat: 'no-repeat',
           }}
         >
-          <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8 items-center min-h-[700px]">
+          <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row gap-8 items-center min-h-[700px]">
             {/* Colonna sinistra */}
             <div className="relative z-10 flex-1 text-center md:text-left flex flex-col justify-center bg-[#0c264b]/80 text-white rounded-xl p-6 shadow-lg border border-blue-800">
               <h1 className="text-2xl font-extrabold mb-4">
@@ -63,7 +63,7 @@ export default function Home() {
           }}>
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-2xl font-bold mb-12">
-              Perché scegliere un'officina del network ON<span className="text-[#00B0F0] ">DRIVE</span>?
+              Perché scegliere un'officina del network ONDRIVE?
             </h2>
 
             <div className="grid md:grid-cols-3 gap-10 text-left">
@@ -103,7 +103,7 @@ export default function Home() {
         <section className="bg-[#E9F7FC] px-6 py-20 text-gray-800 w-full">
           <div className="max-w-7xl mx-auto text-center">
             <h2 className="text-2xl font-bold mb-12">
-              Novità e promozioni del network ON<span className="text-[#00B0F0]">DRIVE</span>
+              Novità e promozioni del network ONDRIVE
             </h2>
 
             <div className="grid md:grid-cols-3 gap-10 text-left">
