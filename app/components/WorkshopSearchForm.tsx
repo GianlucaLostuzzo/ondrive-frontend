@@ -8,7 +8,7 @@ import usePlacesAutocomplete, {
 import { useGoogleMapsLoader } from '@/lib/useGoogleMapsLoader';
 import { BsGeoAltFill } from "react-icons/bs";
 
-const radiusOptions = [5, 10, 20, 50]; // in km
+const radiusOptions = [5, 10, 20, 40]; // in km
 
 // 👇 Inserisci qui le tipologie come le hai su Strapi
 const tipiOfficina = [

@@ -50,7 +50,17 @@ export default function WorkshopMap({ workshops }: MapProps) {
         const lng = parseFloat(w.address!.lon!);
         bounds.extend({ lat, lng });
       });
-      mapRef.current.fitBounds(bounds);
+      if(valid.length > 1)
+      { 
+        mapRef.current.fitBounds(bounds);
+      }
+      else
+      {
+        mapRef.current.fitBounds(bounds);
+        window.setTimeout(() => {
+          mapRef.current?.setZoom(16);
+        }, 500);
+      }
     }
   }, [valid]);
 
@@ -100,7 +110,7 @@ export default function WorkshopMap({ workshops }: MapProps) {
             position={{ lat, lng: lon }}
             onCloseClick={() => setActiveId(null)}
           >
-            <div className="text-sm max-w-xs rounded-lg shadow-lg p-4 bg-white">
+            <div className="text-sm max-w-xs text-black rounded-lg shadow-lg p-4 bg-white">
               <p className="font-bold mb-1">{w.company_data?.name || 'Officina'}</p>
               <p>{w.address?.via} {w.address?.numero}</p>
               <p>{w.address?.cap} {w.address?.citta} ({w.address?.provincia})</p>
@@ -108,7 +118,7 @@ export default function WorkshopMap({ workshops }: MapProps) {
                 href={`/workshops/${w.slug}`}
                 className="text-blue-600 underline mt-2 inline-block"
               >
-                Vedi dettagli →
+                Vedi dettagli
               </Link>
             </div>
           </InfoWindow>
