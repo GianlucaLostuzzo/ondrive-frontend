@@ -108,23 +108,29 @@ export default function Home() {
 
             <div className="grid md:grid-cols-3 gap-10 text-left">
               <div className="p-6 rounded-xl">
-                <img src="/banner/ondrive1.gif" alt="Video ONDRIVE" className="w-full h-full object-cover rounded mb-4" />
+                <Link href="/workshops">
+                  <img src="/banner/ondrive1.gif" alt="Video ONDRIVE" className="w-full h-full object-cover rounded mb-4" />
+                </Link>
               </div>
 
               <div className="p-6 rounded-xl">
-                <img
-                  src="/banner/ondrive.png"
-                  alt="Promozione ONDRIVE"
-                  className="w-full h-full object-cover rounded mb-4"
-                />
+                <Link href="/workshops">
+                  <img
+                    src="/banner/ondrive.png"
+                    alt="Promozione ONDRIVE"
+                    className="w-full h-full object-cover rounded mb-4"
+                  />
+                </Link> 
               </div>
 
               <div className="p-6 rounded-xl">
-                <img
+                <Link href="/workshops">
+                  <img
                   src="/banner/ondrive2.png"
                   alt="Promozione ONDRIVE"
                   className="w-full h-full object-cover rounded mb-4"
-                />
+                  />
+                </Link>
               </div>
             </div>
           </div>
