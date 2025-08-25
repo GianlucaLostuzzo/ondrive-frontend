@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Check window & warm
         env:
-          STRAPI_WARM_URL: "https://TUO-STRAPI/api/health"
+          STRAPI_WARM_URL: "https://exciting-bee-34d313fccd.strapiapp.com/api/health"
         run: |
           HOUR=$(TZ=Europe/Rome date +%H)
           if [ "$HOUR" -ge 7 ] && [ "$HOUR" -lt 23 ]; then
