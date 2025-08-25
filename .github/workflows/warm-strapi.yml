@@ -1,0 +1,30 @@
+name: Warm Strapi (07–23 Europe/Rome)
+on:
+  schedule:
+    - cron: "*/10 * * * *"        # ogni 10' in UTC
+  workflow_dispatch:              # per testarlo a mano
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check window & warm
+        env:
+          STRAPI_WARM_URL: "https://TUO-STRAPI/api/health"
+        run: |
+          HOUR=$(TZ=Europe/Rome date +%H)
+          if [ "$HOUR" -ge 7 ] && [ "$HOUR" -lt 23 ]; then
+            echo "Ping $STRAPI_WARM_URL (Europe/Rome $HOUR)"
+            # jitter 0-20s per evitare burst sincronizzati
+            sleep $((RANDOM % 20))
+            # 3 tentativi con backoff
+            for i in 1 2 3; do
+              if curl -fsS -m 10 "$STRAPI_WARM_URL" -o /dev/null; then
+                echo "OK"; exit 0
+              fi
+              echo "Retry $i..."; sleep $((i*5))
+            done
+            echo "FAILED"; exit 1
+          else
+            echo "Fuori orario, skip."
+          fi
