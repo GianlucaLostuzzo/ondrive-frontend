@@ -1,30 +1,25 @@
-name: Warm Strapi (07–23 Europe/Rome)
+name: Warm Strapi (h24)
+
 on:
   schedule:
-    - cron: "*/10 * * * *"        # ogni 10' in UTC
-  workflow_dispatch:              # per testarlo a mano
+    - cron: "*/10 * * * *"     # ogni 10 minuti, h24 (UTC)
+  workflow_dispatch:
 
 jobs:
   ping:
     runs-on: ubuntu-latest
     steps:
-      - name: Check window & warm
+      - name: Warm health
         env:
           STRAPI_WARM_URL: "https://exciting-bee-34d313fccd.strapiapp.com/api/health"
         run: |
-          HOUR=$(TZ=Europe/Rome date +%H)
-          if [ "$HOUR" -ge 7 ] && [ "$HOUR" -lt 23 ]; then
-            echo "Ping $STRAPI_WARM_URL (Europe/Rome $HOUR)"
-            # jitter 0-20s per evitare burst sincronizzati
-            sleep $((RANDOM % 20))
-            # 3 tentativi con backoff
-            for i in 1 2 3; do
-              if curl -fsS -m 10 "$STRAPI_WARM_URL" -o /dev/null; then
-                echo "OK"; exit 0
-              fi
-              echo "Retry $i..."; sleep $((i*5))
-            done
-            echo "FAILED but not critical"; exit 0
-          else
-            echo "Fuori orario, skip."
-          fi
+          echo "Ping $STRAPI_WARM_URL (h24)"
+          sleep $((RANDOM % 20))
+          for i in 1 2 3; do
+            if curl -fsS --retry 0 --connect-timeout 5 -m 10 "$STRAPI_WARM_URL" -o /dev/null; then
+              echo "OK (health)"; break
+            fi
+            echo "Retry $i..."
+            sleep $((i*5))
+          done
+          true  # non fallire il job anche se i tentativi sono andati male
