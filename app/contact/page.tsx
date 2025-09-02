@@ -52,7 +52,7 @@ export default function Contact() {
           </p>
           <ul className="text-md text-gray-700 space-y-1 mt-4">
             <li><strong>Email:</strong> <a href="mailto:info@ondrive.it" className="text-blue-600 hover:underline">info@ondrive.it</a></li>
-            <li><strong>Telefono:</strong> <a href="tel:+3901122334455" className="text-blue-600 hover:underline">+39 011 223 344 55</a></li>
+            <li><strong>Telefono:</strong> <a href="tel:+3901118483300" className="text-blue-600 hover:underline">+39 011 184 833 00</a></li>
             <li><strong>Indirizzo:</strong> Via I Maggio, 29, 37012 Bussolengo (VR)</li>
           </ul>
         </section>
