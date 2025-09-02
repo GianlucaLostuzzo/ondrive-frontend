@@ -4,6 +4,7 @@ import { Roboto } from 'next/font/google';
 import Header from '@/app/components/Header';
 import Footer from '@/app/components/Footer';
 import Fade from '@/app/components/FadeIn';
+import { Analytics } from "@vercel/analytics/next";
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -30,6 +31,7 @@ export default function RootLayout({
             <Header />
           <main className="flex-grow">
             {children}
+            <Analytics />
           </main>
           <Footer />
           </Fade>
