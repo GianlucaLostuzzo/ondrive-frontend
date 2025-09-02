@@ -3,15 +3,13 @@
 import React, { useEffect, useState, useRef } from 'react';
 import type { JSX } from 'react';
 import { useParams } from 'next/navigation';
-import {
-  BiSolidCarMechanic,
-  BiSolidCarBattery,
-  BiSolidSprayCan,
-} from 'react-icons/bi';
+import { BiSolidCarMechanic, BiSolidCarBattery, BiSolidSprayCan } from 'react-icons/bi';
 import { GiCarWheel, GiTowTruck } from 'react-icons/gi';
 import { FaMotorcycle, FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
 import { GrMapLocation } from 'react-icons/gr';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import { MdAir, MdCarCrash } from "react-icons/md";
+import { TbAutomaticGearboxFilled,TbChecklist,TbClipboardList } from "react-icons/tb";
 
 export default function WorkshopDetailPage() {
   const { slug } = useParams();
@@ -100,12 +98,52 @@ export default function WorkshopDetailPage() {
   const style = { color: 'oklch(37.9% .146 265.522)', fontSize: '50px' };
 
   const iconByServiceName: Record<string, JSX.Element> = {
-    "Meccanico": <BiSolidCarMechanic style={style} />,
-    "Elettrauto": <BiSolidCarBattery style={style} />,
+    "Cambio automatico": <TbAutomaticGearboxFilled style={style} />,
     "Carrozzeria": <BiSolidSprayCan style={style} />,
+    "Clima": <MdAir style={style} />,
+    "Diagnosi": <MdCarCrash style={style} />,
+    "Elettrauto": <BiSolidCarBattery style={style} />,
     "Gommista": <GiCarWheel style={style} />,
-    "Soccorso stradale": <GiTowTruck style={style} />,
+    "Meccanico": <BiSolidCarMechanic style={style} />,
     "Moto": <FaMotorcycle style={style} />,
+    "Revisione": <TbChecklist style={style} />,
+    "Soccorso stradale": <GiTowTruck style={style} />,
+    "Tagliando": <TbClipboardList style={style} />
+  };
+
+  const descriptionByCategory: Record<string, string> = {
+    "Cambio automatico": "Mantieni il tuo cambio fluido e affidabile: un’accurata manutenzione, sostituendo olio e filtro, previene guasti costosi e assicura cambi di marcia fluidi e una lunga durata al tuo veicolo.",
+    "Carrozzeria": "Hai subito danni da grandine o da incidente? La nostra carrozzeria utilizzando attrezzature all’avanguardia riporterà la tua auto al suo aspetto originale.",
+    "Clima": "Hai bisogno di ricaricare l’aria condizionata o di far controllare il climatizzatore? La nostra officina esegue un’attenta ricerca guasti, ricarica gas o una semplice manutenzione e pulizia del sistema per garantire aria fresca in estate e vetri liberi da condensa in inverno.",
+    "Diagnosi": "Se la tua auto ha problemi, si accendono spie o appaiono messaggi strani nel cruscotto, puoi rivolgerti alla nostra officina specializzata nella diagnosi dei sistemi elettronici di bordo. Con controlli rapidi e mirati, il guasto viene individuato e risolto prima che diventi un problema più serio.",
+    "Elettrauto": "Problemi elettrici all’auto? Un elettrauto è pronto a intervenire su batteria, fari, cablaggi e sistemi elettrici di bordo, riportando tutto al corretto funzionamento.",
+    "Gommista": "Devi cambiare le gomme estive o invernali? I nostri tecnici gommisti si occuperanno della sostituzione pneumatici, eventuali riparazioni, equilibratura, convergenza e controllo pressione per garantirti sempre sicurezza e aderenza ottimali.",
+    "Meccanico": "Interventi di manutenzione e riparazione meccanica su qualsiasi tipo di veicolo.",    
+    "Moto": "Vorrei fare un “tagliando auto vicino a me”. La nostra officina effettua il tagliando completo al tuo veicolo secondo le indicazioni della casa costruttrice, mantenendo valida la garanzia e aumentando la sicurezza su strada.",
+    "Revisione": "Servizio di revisione periodica obbligatoria del veicolo.",
+    "Soccorso stradale": "Cerchi un carroattrezzi vicino a te? In caso di guasto o incidente, la nostra officina offre un servizio di soccorso stradale veloce ed efficace per riportarti subito in movimento.",
+    "Tagliando": "Vorrei fare un “tagliando auto vicino a me”. La nostra officina effettua il tagliando completo al tuo veicolo secondo le indicazioni della casa costruttrice, mantenendo valida la garanzia e aumentando la sicurezza su strada."
+  };
+
+  const titleByCategory: Record<string, string> = {
+    "Cambio automatico": "Assistenza cambi automatici",
+    "Carrozzeria": "Carrozzeria",
+    "Clima": "Assistenza climatizzazione e aria condizionata",
+    "Diagnosi": "Diagnosi dei sistemi elettronici",
+    "Elettrauto": "Elettrauto",
+    "Gommista": "Gommista",
+    "Meccanico": "Meccanico",
+    "Moto": "Tagliando moto",
+    "Revisione": "Servizio revisione",
+    "Soccorso stradale": "Soccorso stradale",
+    "Tagliando":"Tagliando auto"
+  };
+
+  const scrollToServices = () => {
+    const el = document.getElementById('services');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
@@ -172,10 +210,10 @@ export default function WorkshopDetailPage() {
             <div className="flex flex-wrap gap-4 items-center mt-6">
               {workshop.type?.map((t: any, i: number) =>
                 iconByServiceName[t.category] ? (
-                  <div key={i} className="flex flex-col items-center text-center w-20">
+                  <button key={i} className="flex flex-col items-center text-center w-20 hover:scale-105 hover:cursor-pointer transition-transform" onClick={scrollToServices}>
                     {iconByServiceName[t.category]}
                     <p className="text-sm mt-1 text-gray-600">{t.category}</p>
-                  </div>
+                  </button>
                 ) : null
               )}
             </div>
@@ -245,18 +283,22 @@ export default function WorkshopDetailPage() {
       </div>
 
       {/* SERVIZI OFFERTI */}
-      <div className="max-w-7xl mx-auto mt-8 bg-white p-6 rounded shadow">
+      <div id="services" className="max-w-7xl mx-auto mt-8 bg-white p-6 rounded shadow">
         <h2 className="text-2xl font-bold text-blue-900 mb-2">Come puoi essere assistito</h2>
-        {services.length > 0 ? (
+        {workshop.type?.length > 0 ? (
           <ul className="text-lg text-gray-700">
-            {services.map((s: any, i: number) => (
-              <li key={i} className="mb-1">
-                <strong>{s.name}</strong>: {s.description}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="text-sm text-gray-500">Nessun servizio ancora registrato</p>
+            {workshop.type.map((t: any, i: number) => {
+                const title = titleByCategory[t.category] || t.category;
+                const desc = descriptionByCategory[t.category] || 'Descrizione non disponibile.';
+                return (
+                  <li key={i} className="mb-1">
+                    <strong>{title}:</strong> {desc}
+                  </li>
+                );
+              })}
+            </ul>
+          ) : (
+            <p className="text-sm text-gray-500">Nessun servizio disponibile</p>
         )}
       </div>
     </div>
