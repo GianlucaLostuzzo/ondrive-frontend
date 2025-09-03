@@ -44,7 +44,7 @@ export default function TermsPage() {
         </p>
 
         <Link href="/" className="text-[#00B0F0] font-medium hover:underline mt-10 inline-block">
-          ← Torna alla homepage
+          Torna alla homepage
         </Link>
       </div>
     </div>

@@ -14,8 +14,17 @@ export default function PrivacyPolicyPage() {
 
         <h2 className="text-xl font-semibold mt-8 mb-2">1. Titolare del trattamento</h2>
         <p className="mb-4">
-          Il titolare del trattamento è <strong>C.D.R. S.r.l.</strong>, con sede legale in [inserire indirizzo], contattabile via email all’indirizzo: <a href="mailto:info@ondrive.it" className="text-[#00B0F0] hover:underline">info@ondrive.it</a>.
+          Il titolare del trattamento è <strong>C.D.R. S.r.l.</strong>, con sede legale in:
         </p>
+        <ul className='list-disc list-inside mb-4'>
+          <li>Via Arrigo Olivetti 7, 10148 Torino (TO)</li>
+        </ul>
+        <ul className="list-disc list-inside mb-4">
+          Contattabile via email all’indirizzo: 
+          <li>
+            <a href="mailto:info@ondrive.it" className="text-[#00B0F0] hover:underline">info@ondrive.it</a>.
+          </li>
+        </ul>
 
         <h2 className="text-xl font-semibold mt-8 mb-2">2. Tipologie di dati raccolti</h2>
         <ul className="list-disc list-inside mb-4">
@@ -54,15 +63,15 @@ export default function PrivacyPolicyPage() {
 
         <h2 className="text-xl font-semibold mt-8 mb-2">8. Modifiche alla presente policy</h2>
         <p className="mb-4">
-          ONDRIVE si riserva il diritto di modificare la presente informativa in qualsiasi momento. Le modifiche saranno pubblicate su questa pagina con data di aggiornamento.
+          <strong>C.D.R. S.r.l.</strong> si riserva il diritto di modificare la presente informativa in qualsiasi momento. Le modifiche saranno pubblicate su questa pagina con data di aggiornamento.
         </p>
 
         <p className="text-sm italic mt-6 text-gray-500">
-          Ultimo aggiornamento: Luglio 2025
+          Ultimo aggiornamento: Settembre 2025
         </p>
 
         <Link href="/" className="text-[#00B0F0] font-medium hover:underline mt-10 inline-block">
-          ← Torna alla homepage
+          Torna alla homepage
         </Link>
       </div>
     </div>

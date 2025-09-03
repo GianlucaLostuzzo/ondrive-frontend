@@ -5,7 +5,7 @@ import type { JSX } from 'react';
 import { useParams } from 'next/navigation';
 import { BiSolidCarMechanic, BiSolidCarBattery, BiSolidSprayCan } from 'react-icons/bi';
 import { GiCarWheel, GiTowTruck } from 'react-icons/gi';
-import { FaMotorcycle, FaWhatsapp, FaPhoneAlt } from 'react-icons/fa';
+import { FaMotorcycle, FaWhatsapp, FaPhoneAlt, FaFacebook, FaInstagram } from 'react-icons/fa';
 import { GrMapLocation } from 'react-icons/gr';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { MdAir, MdCarCrash } from "react-icons/md";
@@ -90,7 +90,7 @@ export default function WorkshopDetailPage() {
 
   const company = workshop.company_data || {};
   const address = workshop.address || {};
-  const services = workshop.services || [];
+  // const services = workshop.services || []; not used anymore
   const orari = workshop.opening_days || [];
   const images = workshop.images || [];
   const bio = workshop.bio || '';
@@ -171,26 +171,53 @@ export default function WorkshopDetailPage() {
               </a>
             )}
 
-            {company.phone && (
-              <p className="text-blue-600 mb-1 flex items-center gap-2">
+            <div className="flex items-center gap-4 mb-4 flex-wrap">
+              <div className="flex items-center gap-2 text-blue-600">
                 <FaPhoneAlt className="text-blue-500" size={20} />
-                <a href={`tel:${company.phone}`} className="hover:underline">{company.phone}</a>
-              </p>
-            )}
-
-            {company.whatsapp && (
-              <p className="text-green-600 mb-1 flex items-center gap-2">
-                <FaWhatsapp className="text-green-500" size={20} />
-                <a
-                  href={`https://wa.me/${company.whatsapp.replace(/\D/g, '')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:underline"
-                >
-                  {company.whatsapp}
+                <a href={`tel:${company.phone}`} className="hover:underline">
+                  {company.phone}
                 </a>
-              </p>
-            )}
+              </div>
+
+              {company.whatsapp && (
+                <div className="flex items-center gap-2 text-green-600">
+                  <a
+                    href={`https://wa.me/${company.whatsapp.replace(/\D/g, '')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline flex items-center"
+                  >
+                    <FaWhatsapp className="text-green-500" size={22} />
+                  </a>
+                </div>
+              )}
+
+              {company.fb && (
+                <div className="flex items-center gap-2 text-blue-600">
+                  <a
+                    href={`https://www.facebook.com/${company.fb}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline flex items-center"
+                  >
+                    <FaFacebook className="text-blue-600" size={22} />
+                  </a>
+                </div>
+              )}
+
+              {company.ig && (
+                <div className="flex items-center gap-2">
+                  <a
+                    href={`https://instagram.com/${company.ig}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline flex items-center"
+                  >
+                    <FaInstagram style={{ color: '#ff006e' }} size={22} />
+                  </a>
+                </div>
+              )}
+            </div>
 
             <div className="mt-6">
               <h2 className="font-semibold text-lg text-gray-800 mb-2">Orari di apertura</h2>
