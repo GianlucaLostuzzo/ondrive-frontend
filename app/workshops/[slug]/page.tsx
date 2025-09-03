@@ -9,7 +9,7 @@ import { FaMotorcycle, FaWhatsapp, FaPhoneAlt, FaFacebook, FaInstagram } from 'r
 import { GrMapLocation } from 'react-icons/gr';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import { MdAir, MdCarCrash } from "react-icons/md";
-import { TbAutomaticGearboxFilled,TbChecklist,TbClipboardList } from "react-icons/tb";
+import { TbAutomaticGearboxFilled,TbChecklist,TbClipboardList,TbWorld } from "react-icons/tb";
 
 export default function WorkshopDetailPage() {
   const { slug } = useParams();
@@ -172,8 +172,8 @@ export default function WorkshopDetailPage() {
             )}
 
             <div className="flex items-center gap-4 mb-4 flex-wrap">
-              <div className="flex items-center gap-2 text-blue-600">
-                <FaPhoneAlt className="text-blue-500" size={20} />
+              <div className="flex items-center gap-2 text-gray-600">
+                <FaPhoneAlt className="text-green-500" size={20} />
                 <a href={`tel:${company.phone}`} className="hover:underline">
                   {company.phone}
                 </a>
@@ -214,6 +214,19 @@ export default function WorkshopDetailPage() {
                     className="hover:underline flex items-center"
                   >
                     <FaInstagram style={{ color: '#ff006e' }} size={22} />
+                  </a>
+                </div>
+              )}
+
+              {company.website && (
+                <div className="flex items-center gap-2">
+                  <a
+                    href={`${company.website}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="hover:underline flex items-center"
+                  >
+                    <TbWorld style={{ color: '#00B0F0' }} size={22} />
                   </a>
                 </div>
               )}
