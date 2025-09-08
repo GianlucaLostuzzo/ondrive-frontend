@@ -14,39 +14,39 @@ export default function Home() {
       <main className="flex-grow">
         {/* Hero con immagine full-width */}
         <section
-          className="relative px-6 py-10 text-white w-full overflow-hidden"
-          style={{
-            backgroundImage: 'url(/bg/hero.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat',
-          }}
+          className="
+            relative px-4 sm:px-6 py-10 text-white w-full overflow-hidden bg-no-repeat bg-center bg-cover
+            bg-[url('/bg/hero_small.jpg')] sm:bg-[url('/bg/hero.jpg')] md:bg-cover lg:bg-[length:150%]"
         >
-          <div className="max-w-7xl mx-auto flex flex-col-reverse md:flex-row gap-8 items-center min-h-[700px]">
+          {/* Overlay scuro */}
+
+          <div className="relative z-10 max-w-7xl mx-auto flex flex-col-reverse md:flex-row gap-6 md:gap-8 items-center
+                          min-h-[560px] md:min-h-[680px]">
             {/* Colonna sinistra */}
-            <div className="relative z-10 flex-1 text-center md:text-left flex flex-col justify-center bg-[#0c264b]/80 text-white rounded-xl p-6 shadow-lg border border-blue-800">
-              <h1 className="text-2xl font-extrabold mb-4">
+            <div className="flex-1 text-center md:text-left flex flex-col justify-center
+                            bg-[#0c264b]/80 text-white rounded-xl p-4 sm:p-6 shadow-lg border border-blue-800">
+              <h1 className="text-xl sm:text-2xl font-extrabold mb-3 sm:mb-4">
                 La tua auto nelle mani giuste. Sempre.
               </h1>
-              <p className="text-lg mb-2">
+              <p className="text-base sm:text-lg mb-2">
                 <strong>ONDRIVE</strong> è il primo network tecnico che riunisce le migliori officine indipendenti d'Italia.
                 Selezioniamo solo professionisti affidabili e li supportiamo ogni giorno con formazione, strumenti moderni e tecnologie avanguardia.
               </p>
-              <p className="text-lg mb-2">
-                Che si tratti di un semplice tagliando, di una riparazione o di una diagnosi complessa, nelle officine ONDRIVE trovi competenza,
-                chiarezza e attenzione.
+              <p className="text-base sm:text-lg mb-4">
+                Che si tratti di un semplice tagliando, di una riparazione o di una diagnosi complessa, nelle officine ONDRIVE trovi
+                competenza, chiarezza e attenzione.
               </p>
               <Link
                 href="/workshops"
-                className="bg-[#00B0F0] text-white px-6 py-3 rounded-md hover:bg-[#00A0E0] transition self-center md:self-start"
+                className="bg-[#00B0F0] text-white px-5 py-3 rounded-md hover:bg-[#00A0E0] transition self-center md:self-start"
               >
                 Trova un'officina
               </Link>
             </div>
 
             {/* Colonna destra - Form di ricerca */}
-            <div className="relative z-10 flex-1 flex items-center justify-center">
-              <div className="w-full max-w-lg bg-[#0c264b]/80 text-white rounded-xl p-6 shadow-lg border border-blue-800">
+            <div className="flex-1 w-full flex items-center justify-center">
+              <div className="w-full max-w-md sm:max-w-lg bg-[#0c264b]/80 text-white rounded-xl p-4 sm:p-6 shadow-lg border border-blue-800">
                 <SearchWorkshopForm />
               </div>
             </div>
@@ -54,11 +54,11 @@ export default function Home() {
         </section>
 
         {/* Sezione motivi per scegliere ONDRIVE */}
-        <section className="relative px-6 py-20 text-white w-full"
+        <section className="relative px-6 py-20 text-white w-full flex items-center justify-center"
           style={{
-            backgroundImage: 'url(/bg/home.png)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            backgroundColor: '#0c264b',
+            backgroundImage: 'url(/bg/home_blue.svg)',
+            backgroundPosition: 'bottom',
             backgroundRepeat: 'no-repeat',
           }}>
           <div className="max-w-7xl mx-auto text-center">

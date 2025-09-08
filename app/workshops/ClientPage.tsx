@@ -160,7 +160,7 @@ export default function ClientPage() {
     <div
       className="min-h-screen py-10 px-4 md:px-10"
       style={{
-        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)),url(/bg/hero.png)',
+        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9)),url(/bg/hero.jpg)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
