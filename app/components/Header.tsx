@@ -70,7 +70,7 @@ export default function Header() {
           </button>
         </div>
 
-        <nav className="flex flex-col px-4 py-6 gap-4 text-gray-700 font-medium text-base">
+        <nav className="flex flex-col px-4 py-6 gap-4 text-gray-700 font-garet text-base">
           {navLinks.map(({ href, label }) => (
             <Link
               key={href}

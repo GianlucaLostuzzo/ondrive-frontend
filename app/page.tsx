@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
+import Header from '@/app/components/Header';
+import Footer from '@/app/components/Footer';
 
 // Carica il componente del form di ricerca (dinamico per evitare errori SSR)
 const SearchWorkshopForm = dynamic(() => import('@/app/components/WorkshopSearchFormWrapper'), {
@@ -12,6 +14,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-white w-full">
       <main className="flex-grow">
+        <Header />
         {/* Hero con immagine full-width */}
         <section
           className="
@@ -135,6 +138,7 @@ export default function Home() {
             </div>
           </div>
         </section>
+        <Footer />
       </main>
     </div>
   );

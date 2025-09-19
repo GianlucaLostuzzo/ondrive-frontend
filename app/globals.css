@@ -1,5 +1,20 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: Inter;
+  src: url("../public/fonts/Inter_18pt-Thin.ttf");
+}
+
+@font-face {
+  font-family: Garet;
+  src: url("../public/fonts/Garet-Book.ttf");
+}
+
+@font-face {
+  font-family: Oswald;
+  src: url("../public/fonts/Oswald-VariableFont_wght.ttf");
+}
+
 :root {
   --background: #0c264b;
   --foreground: #171717;
@@ -8,7 +23,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-roboto: var(--font-roboto);
+  --font-inter: Inter;
+  --font-garet: Garet;
+  --font-oswald: Oswald;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -29,8 +46,4 @@ header {
   color: var(--color-foreground);
   padding: 1rem;
   text-align: center;
-}
-
-* {
-  font-family: var(--font-roboto, Arial, Helvetica, sans-serif);
 }

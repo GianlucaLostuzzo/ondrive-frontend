@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Roboto } from 'next/font/google';
-import Header from '@/app/components/Header';
-import Footer from '@/app/components/Footer';
 import Fade from '@/app/components/FadeIn';
 import { Analytics } from "@vercel/analytics/next";
 
@@ -28,12 +26,10 @@ export default function RootLayout({
       <body className={`${roboto.variable} antialiased`}>
         <div className="flex flex-col min-h-screen">
           <Fade>
-            <Header />
           <main className="flex-grow">
             {children}
             <Analytics />
           </main>
-          <Footer />
           </Fade>
         </div>
       </body>
