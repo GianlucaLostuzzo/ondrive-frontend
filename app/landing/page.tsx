@@ -59,12 +59,24 @@ export default function LandingPage() {
             </h2>
 
             <div className="grid md:grid-cols-3 gap-10 text-left">
-              <div className='border-3 border-cyan-500 p-6 rounded-xl transition'>
-                <h3 className="text-5xl font-oswald font-bold mb-2 break-words">I BENEFICI PER IL RICAMBISTA</h3>
-                <div className="flex justify-center items-center">
-                  <img src="/icons/arrow.png" alt="arrow down" className="hidden h-35 mt-20 md:block"/>
-                  <PiArrowDown size={100} className="text-orange-500 mt-4 md:hidden"/>
-                </div>
+              <div className="relative border-3 border-cyan-500 p-6 rounded-xl transition">
+                <h3 className="text-4xl font-oswald font-bold mb-2 break-words">
+                  I BENEFICI PER IL RICAMBISTA
+                </h3>
+
+                {/* freccia */}
+                <img
+                  src="/icons/arrow.png"
+                  alt="arrow down"
+                  className="absolute hidden md:block top-50 right-10 w-60"
+                />
+
+                {/* versione mobile */}
+                <img
+                  src="/icons/arrow.png"
+                  alt="arrow down"
+                  className="absolute rotate-90 md:hidden top-25 left-95 w-15"
+                />
               </div>
           
               <div className="space-y-6">
@@ -113,12 +125,24 @@ export default function LandingPage() {
             </h2>
 
             <div className="grid md:grid-cols-3 gap-10 text-left">
-              <div className='border-3 border-cyan-500 p-6 rounded-xl transition'>
-                <h3 className="text-4xl font-oswald font-bold mb-2 break-words">I VANTAGGI CONCRETI PER L'AUTORIPARATORE</h3>
-                <div className="flex justify-center">
-                  <img src="/icons/arrow.png" alt="arrow down" className="hidden h-35 mt-4 md:block"/>
-                  <PiArrowDown size={100} className="text-orange-500 mt-4 md:hidden"/>
-                </div>
+              <div className="relative border-3 border-cyan-500 p-6 rounded-xl transition">
+                <h3 className="text-4xl font-oswald font-bold mb-2 break-words">
+                  I VANTAGGI CONCRETI PER L'AUTORIPARATORE
+                </h3>
+
+                {/* freccia */}
+                <img
+                  src="/icons/arrow.png"
+                  alt="arrow down"
+                  className="absolute hidden md:block top-45 right-10 w-60"
+                />
+
+                {/* versione mobile */}
+                <img
+                  src="/icons/arrow.png"
+                  alt="arrow down"
+                  className="absolute rotate-90 md:hidden top-25 left-95 w-15"
+                />
               </div>
           
               <div className="space-y-6">
