@@ -81,7 +81,7 @@ export default function LandingPage() {
           
               <div className="space-y-6">
                 <div className="bg-white text-blue-900 font-inter font-bold p-6 rounded-xl shadow">
-                  Riduzioni dei tempi di gestione grazie a un'App che centralizza le richieste
+                  Riduzione dei tempi di gestione grazie a un'App che centralizza le richieste
                 </div>
                 <div className="bg-white text-blue-900 font-inter font-bold p-6 rounded-xl shadow">
                   Un tecnico ONDRIVE dedicato che lavora al fianco dell'officina, come un'estensione del tuo team
@@ -93,7 +93,7 @@ export default function LandingPage() {
 
               <div className="space-y-6">
                 <div className="bg-white text-blue-900 font-inter font-bold p-6 rounded-xl shadow">
-                  Ricevi gli ordini direttamte tramite l'App con i codici OE verificati con il VIN
+                  Ricevi gli ordini direttamente tramite l'App con i codici OE verificati con il VIN
                 </div>
                 <div className="bg-white text-blue-900 font-inter font-bold p-6 rounded-xl shadow">
                   Calendari formativi personalizzati, per offrire valore concreto ai tuoi clienti
