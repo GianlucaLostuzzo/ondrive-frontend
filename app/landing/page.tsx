@@ -1,7 +1,7 @@
 'use client';
 
 import { FaCircleArrowDown  } from "react-icons/fa6";
-import { PiArrowBendUpRightBold, PiArrowDown } from "react-icons/pi";
+import { PiArrowDown } from "react-icons/pi";
 
 export default function LandingPage() {
   return (
@@ -61,8 +61,8 @@ export default function LandingPage() {
             <div className="grid md:grid-cols-3 gap-10 text-left">
               <div className='border-3 border-cyan-500 p-6 rounded-xl transition'>
                 <h3 className="text-5xl font-oswald font-bold mb-2 break-words">I BENEFICI PER IL RICAMBISTA</h3>
-                <div className="flex justify-center">
-                  <PiArrowBendUpRightBold size={100} className="text-orange-500 mt-4 hidden md:block"/>
+                <div className="flex justify-center items-center">
+                  <img src="/icons/arrow.png" alt="arrow down" className="hidden h-35 mt-20 md:block"/>
                   <PiArrowDown size={100} className="text-orange-500 mt-4 md:hidden"/>
                 </div>
               </div>
@@ -114,9 +114,9 @@ export default function LandingPage() {
 
             <div className="grid md:grid-cols-3 gap-10 text-left">
               <div className='border-3 border-cyan-500 p-6 rounded-xl transition'>
-                <h3 className="text-4xl font-oswald font-bold mb-2">I VANTAGGI CONCRETI PER L'AUTORIPARATORE</h3>
+                <h3 className="text-4xl font-oswald font-bold mb-2 break-words">I VANTAGGI CONCRETI PER L'AUTORIPARATORE</h3>
                 <div className="flex justify-center">
-                  <PiArrowBendUpRightBold size={100} className="text-orange-500 mt-4 hidden md:block"/>
+                  <img src="/icons/arrow.png" alt="arrow down" className="hidden h-35 mt-4 md:block"/>
                   <PiArrowDown size={100} className="text-orange-500 mt-4 md:hidden"/>
                 </div>
               </div>
