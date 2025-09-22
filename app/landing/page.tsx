@@ -75,7 +75,7 @@ export default function LandingPage() {
                 <img
                   src="/icons/arrow.png"
                   alt="arrow down"
-                  className="absolute rotate-90 md:hidden top-25 left-8/9 w-15"
+                  className="absolute rotate-90 md:hidden top-25 left-11/13 w-15"
                 />
               </div>
           
@@ -141,7 +141,7 @@ export default function LandingPage() {
                 <img
                   src="/icons/arrow.png"
                   alt="arrow down"
-                  className="absolute rotate-90 md:hidden top-40 left-8/9 w-15"
+                  className="absolute rotate-90 md:hidden top-40 left-11/13 w-15"
                 />
               </div>
           
